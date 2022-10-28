@@ -1,6 +1,6 @@
 # Next.js payment app
 
-Deploy:
+Deploy: https://next-payment-app.vercel.app
 
 ## 🛠 Stack
 
