@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { device } from '../utils/mediaSizes';
+import { device } from '../../utils';
 
 export const PaymentForm = styled.form`
   padding: 20px;

@@ -5,8 +5,8 @@ import Link from 'next/link';
 import React from 'react';
 
 import { TOperator } from '../@types/types';
-import { OperatorBlock, Title } from '../components';
-import { Container, ListItem } from '../styles';
+import { OperatorBlock, Title, ListItem } from '../components';
+import { Container } from '../styles';
 
 export const getStaticProps: GetStaticProps = async () => {
   try {

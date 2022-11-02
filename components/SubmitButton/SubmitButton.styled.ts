@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 export const StyledSubmitButton = styled('button').attrs({
@@ -18,10 +17,6 @@ export const StyledSubmitButton = styled('button').attrs({
     top: 4px;
     box-shadow: 0px 0px 7px rgb(192, 117, 117);
   }
-
-  &:disabled {
-    pointer-events: none;
-  }
 `;
 
 export const SubmitButtonContainer = styled.div`
@@ -29,16 +24,3 @@ export const SubmitButtonContainer = styled.div`
   justify-content: flex-end;
   margin-top: 20px;
 `;
-
-interface ISubmitButtonProps {
-  children: React.ReactNode;
-  disabled: boolean;
-}
-
-export const SubmitButton: React.FC<ISubmitButtonProps> = (props) => {
-  return (
-    <SubmitButtonContainer>
-      <StyledSubmitButton {...props} />
-    </SubmitButtonContainer>
-  );
-};

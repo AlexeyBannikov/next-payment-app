@@ -1,7 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
-interface IStyledOperatorBlockProps {
+export interface IStyledOperatorBlockProps {
   display?: string;
   alignItems?: string;
   justifyContent?: string;
@@ -14,11 +13,3 @@ export const StyledOperatorBlock = styled('div')<IStyledOperatorBlockProps>`
   justify-content: ${(props) => props.justifyContent || 'initial'};
   margin: ${(props) => props.margin || '0px'};
 `;
-
-interface TOperatorBlockProps extends IStyledOperatorBlockProps {
-  children: React.ReactNode;
-}
-
-export const OperatorBlock: React.FC<TOperatorBlockProps> = (props) => {
-  return <StyledOperatorBlock {...props} />;
-};

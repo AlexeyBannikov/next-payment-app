@@ -6,9 +6,15 @@ import React from 'react';
 import MaskedInput from 'react-text-mask';
 
 import { TOperator } from '../../@types/types';
-import { OperatorBlock, SubmitButton, Title } from '../../components';
-import { CloseButton, Container, PaymentForm } from '../../styles';
-import { amountValidation, phoneValidation } from '../../utils/validations';
+import {
+  OperatorBlock,
+  SubmitButton,
+  Title,
+  CloseButton,
+  PaymentForm,
+} from '../../components';
+import { Container } from '../../styles';
+import { amountValidation, phoneMask, phoneValidation } from '../../utils';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   try {
@@ -63,41 +69,17 @@ type TOperatorProps = {
 };
 
 const Operator: React.FC<TOperatorProps> = ({ operator }) => {
-  const [phone, setPhone] = React.useState<string>('');
-  const [amount, setAmount] = React.useState<string>('');
+  const [values, setValues] = React.useState({ phone: '', amount: '' });
   const router = useRouter();
-  const phoneMask = [
-    '+',
-    '7',
-    ' ',
-    '(',
-    /[1-9]/,
-    /\d/,
-    /\d/,
-    ')',
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    '-',
-    /\d/,
-    /\d/,
-    '-',
-    /\d/,
-    /\d/,
-  ];
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-  };
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value);
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (phoneValidation(phone) && amountValidation(amount)) {
+    if (phoneValidation(values.phone) && amountValidation(values.amount)) {
       try {
         const response = await fetch('/api/payment/', {
           method: 'POST',
@@ -105,8 +87,11 @@ const Operator: React.FC<TOperatorProps> = ({ operator }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            phone: phone.replace(/[^+\d]/g, '').substring(1),
-            amount: amount[0] == '0' ? amount.substring(1) : amount,
+            phone: values.phone.replace(/[^+\d]/g, '').substring(1),
+            amount:
+              values.amount[0] == '0'
+                ? values.amount.substring(1)
+                : values.amount,
           }),
         });
 
@@ -153,18 +138,22 @@ const Operator: React.FC<TOperatorProps> = ({ operator }) => {
           <MaskedInput
             mask={phoneMask}
             placeholder='+7 (___) ___-__-__'
-            onChange={handlePhoneChange}
-            value={phone}
+            onChange={changeHandler}
+            value={values.phone}
+            name='phone'
           />
           <input
             maxLength={4}
             placeholder='1-1000₽'
-            onChange={handleAmountChange}
-            value={amount}
+            onChange={changeHandler}
+            value={values.amount}
+            name='amount'
           />
           <SubmitButton
             disabled={
-              phoneValidation(phone) && amountValidation(amount) ? false : true
+              phoneValidation(values.phone) && amountValidation(values.amount)
+                ? false
+                : true
             }>
             Оплатить
           </SubmitButton>
